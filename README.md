@@ -1,9 +1,10 @@
 # Hyperspherical Autoencoder for High-Fidelity Image Reconstruction and Generation
 
 [![arXiv](https://img.shields.io/badge/arXiv-2601.22904-b31b1b.svg)](https://arxiv.org/abs/2601.22904)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dino%20SAE-yellow)](https://huggingface.co/wkdgnsgo/dino-sae)
 
-This repository is the official implementation of the paper: **"DINO-SAE: DINO Spherical Autoencoder for High-Fidelity Image Reconstruction and Generation"**.
+<!-- [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dino%20SAE-yellow)](https://huggingface.co/wkdgnsgo/dino-sae) -->
+
+This repository is the official implementation of the paper: **"Hyperspherical Autoencoder for High-Fidelity Image Reconstruction and Generation"**.
 
 ---
 
