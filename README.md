@@ -124,10 +124,10 @@ python train_ae.py \
     --batch_size 256 \
     --lr 1e-5 \
     --lambda_cos 0.5 \
-    --lambda_lpips 1.0
+    <!-- --lambda_lpips 1.0
 ``` -->
 
-**Stage 2: Adversarial Adaptation** Adds GAN loss with a DINO-based Discriminator to enhance textural realism.
+<!-- **Stage 2: Adversarial Adaptation** Adds GAN loss with a DINO-based Discriminator to enhance textural realism. -->
 
 <!-- ```bash
 python train_ae.py \
@@ -137,7 +137,7 @@ python train_ae.py \
     --lambda_adv 0.5
 ``` -->
 
-**Stage 3: Decoder Refinement** Freezes the entire encoder (including the patch embedding) to fix the semantic latent space, fine-tuning only the decoder.
+<!-- **Stage 3: Decoder Refinement** Freezes the entire encoder (including the patch embedding) to fix the semantic latent space, fine-tuning only the decoder. -->
 
 <!-- ```bash
 python train_ae.py \
@@ -147,7 +147,7 @@ python train_ae.py \
     --lr 1e-4
 ``` -->
 
-**Stage 4: Noise Augmentation** Injects noise into the latents while keeping the encoder frozen to make the decoder robust for generative modeling.
+<!-- **Stage 4: Noise Augmentation** Injects noise into the latents while keeping the encoder frozen to make the decoder robust for generative modeling. -->
 
 <!-- ```bash
 python train_ae.py \
@@ -157,8 +157,8 @@ python train_ae.py \
     --lr 5.4e-5
 ``` -->
 
-**Generation (Riemannian Flow Matching)**
-Train the Diffusion Transformer (DiT) on the spherical latent space extracted by DINO-SAE.
+<!-- **Generation (Riemannian Flow Matching)**
+Train the Diffusion Transformer (DiT) on the spherical latent space extracted by DINO-SAE. -->
 
 <!--
 ```bash
@@ -169,7 +169,7 @@ python train_dit.py \
     --epochs 80
 ``` -->
 
-## 📊 Results
+<!-- ## 📊 Results
 
 ### Reconstruction Quality (ImageNet 256x256)
 
@@ -180,9 +180,9 @@ DINO-SAE significantly outperforms existing VFM-based autoencoders in terms of p
 | SD-VAE              |   0.62   |   26.04   |
 | VAVAE               |   0.28   |   27.96   |
 | RAE                 |   0.59   |   18.94   |
-| **DINO-SAE (Ours)** | **0.37** | **26.20** |
+| **DINO-SAE (Ours)** | **0.37** | **26.20** | -->
 
-### Generation Quality
+<!-- ### Generation Quality
 
 Using DINO-SAE latents leads to faster convergence and higher generation quality compared to RAE and VAVAE baselines.
 
@@ -195,7 +195,7 @@ Using DINO-SAE latents leads to faster convergence and higher generation quality
 
 ## 📜 Citation
 
-If you find this work useful for your research, please cite our paper:
+If you find this work useful for your research, please cite our paper: --> -->
 
 <!-- ```bibtex
 @article{dino_sae_2025,
@@ -206,7 +206,7 @@ If you find this work useful for your research, please cite our paper:
 }
 ``` -->
 
-## 🙏 Acknowledgement
+<!-- ## 🙏 Acknowledgement
 
 This project is built upon the following open-source projects. We thank the authors for making their code and models available.
 
@@ -216,7 +216,8 @@ This project is built upon the following open-source projects. We thank the auth
 - [cite_start]**[DC-AE](https://arxiv.org/abs/2410.10733)**: We adopt the lightweight decoder architecture proposed in DC-AE for efficient upsampling[cite: 329].
 - [cite_start]**[SiT](https://github.com/willmcneil/SiT)** & **[DiT](https://github.com/facebookresearch/DiT)**: The diffusion transformer architectures for our generative experiments are based on these repositories[cite: 128, 579]. -->
 
-````
+`````
 
 ``` -->
-````
+```` -->
+`````
