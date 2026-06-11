@@ -1,4 +1,4 @@
-# DINO-SAE: High-Fidelity Image Reconstruction and Generation
+# Hyperspherical Autoencoder for High-Fidelity Image Reconstruction and Generation
 
 [![arXiv](https://img.shields.io/badge/arXiv-2601.22904-b31b1b.svg)](https://arxiv.org/abs/2601.22904)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dino%20SAE-yellow)](https://huggingface.co/wkdgnsgo/dino-sae)
@@ -7,24 +7,41 @@ This repository is the official implementation of the paper: **"DINO-SAE: DINO S
 
 ---
 
-![Teaser Image](./assets/intro_samples.png)
+![Teaser Image](./assets/intro.jpg)
 
-- **Figure 1.** Generated images from DiTDH model trained on DINO-SAE latents. DINO-SAE achieves state-of-the-art reconstruction quality while maintaining strong semantic alignment to the pretrained VFM.\*
+- **Figure 1.** Generated images from LightningDiT-XL from HAE latent\*
 
 ---
 
-## 🔥 News
+<!-- ## 🔥 News
 
 | Date           | Description                                            |
 | :------------- | :----------------------------------------------------- |
 | **2026.02.14** | Released SAE checkpoints and DDT-XL (80 epochs) model! |
 | **2026.02.05** | Training in progress... Code coming soon!              |
-| **2026.01.30** | Paper available on arXiv.                              |
+| **2026.01.30** | Paper available on arXiv.                              | -->
 
 ## 📖 Abstract
 
-Recent studies have explored using pretrained Vision Foundation Models (VFMs) such as DINO for generative autoencoders. Unfortunately, existing approaches often suffer from limited reconstruction fidelity due to the loss of high-frequency details.
+Recent studies have explored using pretrained Vision Foundation Models (VFMs)
+such as DINO for generative autoencoders, showing strong generative performance.
+Unfortunately, existing approaches often suffer from limited reconstruction fidelity
+due to the loss of high-frequency details. In this work, we present the Hyper-
+spherical Autoencoder (HAE), a framework that bridges semantic representation
+and pixel-level reconstruction. Our key insight is that while semantic information
+in contrastive representations is primarily directional, enforcing strict magnitude
+matching hinders the preservation of fine-grained details. To address this, we
+introduce a Directional Feature Alignment objective that enforces semantic consis-
+tency while allowing flexible feature magnitudes for detail retention, alongside a
+Hierarchical Convolutional Patch Embedding module to enhance local structure
+preservation. Furthermore, observing that SSL-based representations intrinsically
+lie on a hypersphere, we employ Riemannian Flow Matching to train a Diffu-
+sion Transformer (DiT) directly on this spherical latent manifold. Notably, our
+manifold-aware DiT exhibits highly efficient convergence, achieving an exceptional
+gFID of 1.96 alongside a reconstruction rFID of 0.78 and a PSNR of 25.2 dB,
+validating the advantages of our manifold-aware approach. Co
 
+<!--
 **DINO-SAE** bridges semantic representation and pixel-level reconstruction through three key contributions:
 
 1.  **Hierarchical Convolutional Patch Embedding**: Enhances local structure and texture preservation, mitigating the information bottleneck of standard ViT patchification.
@@ -199,6 +216,7 @@ This project is built upon the following open-source projects. We thank the auth
 - [cite_start]**[DC-AE](https://arxiv.org/abs/2410.10733)**: We adopt the lightweight decoder architecture proposed in DC-AE for efficient upsampling[cite: 329].
 - [cite_start]**[SiT](https://github.com/willmcneil/SiT)** & **[DiT](https://github.com/facebookresearch/DiT)**: The diffusion transformer architectures for our generative experiments are based on these repositories[cite: 128, 579]. -->
 
-```
+````
 
-```
+``` -->
+````

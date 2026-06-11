@@ -101,3 +101,7 @@ waitress==3.0.2
 wandb==0.23.1
 xxhash==3.6.0
 yarl==1.22.0
+lpips
+transformers
+regex
+matplotlib
