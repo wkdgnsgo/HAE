@@ -1,0 +1,85 @@
+# Defaults shared by every stage. Relative paths start at the stage1/ folder.
+seed: 42
+model:
+  dino:
+    repo_path: vendor/dinov3
+    model_name: dinov3_vitl16
+    weights_path: weights/dinov3_vitl16_pretrain_lvd1689m-8aa4cbdd.pth
+    frozen_backbone_eval: true
+  decoder:
+    in_channels: 3
+    latent_channels: 1024
+    width_list: [256, 512, 512, 1024, 1024]
+    depth_list: [5, 5, 3, 3, 3]
+    block_type: [ResBlock, ResBlock, ResBlock, EViT_GLU, EViT_GLU]
+    norm: trms2d
+    act: silu
+    in_shortcut: duplicating
+    upsample_block_type: InterpolateConv
+    upsample_match_channel: true
+    upsample_shortcut: duplicating
+    out_norm: trms2d
+    out_act: relu
+data:
+  train_root: data/imagenet/train
+  val_root: data/imagenet/val
+  image_size: 256
+  preprocess: squash_bilinear    # squash_bilinear | adm_center_crop
+  num_workers: 8
+training:
+  scope: decoder                 # cnn_decoder (HCPE + decoder) | decoder | head
+  precision: bf16                # bf16 | fp32
+  micro_batch_size: 64           # images per GPU per forward pass
+  global_batch_size: 512         # images per optimizer update = micro_batch_size x GPUs x accumulation
+  learning_rate: 1.0e-5          # generator; overridden per phase by training.phases
+  lr_warmup_updates: 0           # linear generator lr warmup; 0 = constant
+  betas: [0.9, 0.999]
+  weight_decay: 0.0
+  max_grad_norm: 1.0
+  max_updates: 2502
+  save_every: 2502               # updates; 1 epoch of ImageNet-1k at global batch 512
+  log_every: 10
+  output_dir: runs/unset
+  init_from: null
+  init_weights: ema              # weights taken from init_from: ema | raw
+  hcpe_warmup:                   # before Stage 1: fit the HCPE to the encoder's original patch embedding
+    epochs: 0                    # 0 = off; about 2 for encoders sensitive to the patch embedding (SigLIP2, DINOv2)
+    batch_size: 256              # 2 epochs of ImageNet-1k = 10,008 updates
+    learning_rate: 1.0e-3
+    lr_warmup_updates: 100
+losses:
+  l1: 1.0
+  lpips: 1.0
+  alignment: 0.0
+  alignment_type: cos            # cos (1 - cosine similarity) | mse
+gan:
+  enabled: false
+  discriminator:
+    type: dinodisc
+    backbone: dino_vits8
+    recipe: S_8
+    weights_path: weights/dino_deitsmall8_pretrain.pth
+    ks: 3
+  learning_rate: 5.4e-5
+  betas: [0.5, 0.9]
+  weight: 0.5
+  adaptive: true                 # balance the adversarial term by the last-layer gradient norms
+  adaptive_max: 10.0
+  warmup_updates: 0              # discriminator-only updates before the adversarial term turns on
+ema:
+  decay: 0.999
+  warmup: true                   # decay = min(decay, (1 + t) / (10 + t))
+validation:                      # each epoch: first `images` of val_root, EMA weights, PSNR / SSIM / LPIPS
+  enabled: false
+  images: 1000
+  batch_size: 16
+logging:
+  wandb:
+    enabled: true
+    project: hae-stage1
+    entity: null
+    group: dinov3
+    name: null
+    mode: online                 # online | offline | disabled
+    image_every: 500
+    num_images: 10

@@ -1,0 +1,6 @@
+# SigLIP2 + HCPE, Stage 1, after a 2-epoch HCPE warmup on the original patch embedding.
+_base_: [../stage1_alignment.yaml, encoder.yaml]
+training:
+  output_dir: runs/siglip2/stage1_alignment
+  hcpe_warmup:
+    epochs: 2

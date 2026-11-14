@@ -1,6 +1,7 @@
 # Hyperspherical Autoencoder for High-Fidelity Image Reconstruction and Generation
 
 [![arXiv](https://img.shields.io/badge/arXiv-2601.22904-b31b1b.svg)](https://arxiv.org/abs/2601.22904)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-HAE-yellow)](https://huggingface.co/wkdgnsgo/hae)
 
 <!-- [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dino%20SAE-yellow)](https://huggingface.co/wkdgnsgo/dino-sae) -->
 
@@ -41,6 +42,57 @@ sion Transformer (DiT) directly on this spherical latent manifold. Notably, our
 manifold-aware DiT exhibits highly efficient convergence, achieving an exceptional
 gFID of 1.96 alongside a reconstruction rFID of 0.78 and a PSNR of 25.2 dB,
 validating the advantages of our manifold-aware approach. Co
+
+## 🗂️ Repository
+
+| Path | Content |
+| :--- | :--- |
+| [`stage1/`](./stage1) | Autoencoder (HAE) training and evaluation: HCPE + directional feature alignment, then DinoDisc GAN |
+| [`src/efficientvit/`](./src/efficientvit) | DC-AE / EfficientViT components |
+
+## 🤗 Pretrained Weights
+
+Weights are hosted on Hugging Face: [wkdgnsgo/hae](https://huggingface.co/wkdgnsgo/hae).
+
+| File | Content |
+| :--- | :--- |
+| `hae_no_smoothing.pt`, `hae_smoothing.pt` | HAE autoencoder (DINOv3 ViT-L/16 + HCPE + decoder), without and with smoothing |
+| `0000550_ema0995.pt`, `0001000_qknorm_ema.pt` | Generation model (LightningDiT) checkpoints |
+| `stats_all_element.pt` | Latent mean and std per token and channel (256 × 1024) |
+
+The autoencoder files load directly with the code in `stage1/`; see
+[Pretrained weights](./stage1/README.md#pretrained-weights).
+
+## 🏋️ Autoencoder Training (`stage1/`)
+
+The autoencoder is trained in two steps. Setup, data layout, evaluation and every option are described in
+[`stage1/README.md`](./stage1/README.md).
+
+```bash
+cd stage1
+pip install -r requirements.txt
+git clone https://github.com/facebookresearch/dinov3.git vendor/dinov3
+python scripts/prepare_perceptual.py --fid
+
+# Stage 1: HCPE + decoder, L1 + LPIPS + directional (cosine) alignment, 25 epochs
+GPUS=0,1,2,3 scripts/train.sh configs/stage1_alignment.yaml
+
+# Stage 2: decoder-only DinoDisc GAN, 10 epochs, from the EMA weights of Stage 1
+GPUS=0,1,2,3 scripts/train.sh configs/stage2_gan.yaml
+```
+
+| Step | Trains | Learning rate | Adam betas | Length |
+| :--- | :--- | :--- | :--- | :--- |
+| Stage 1, epochs 0 – 3 | HCPE + decoder | 1e-5 | (0.9, 0.999) | 3 epochs |
+| Stage 1, epochs 3 – 25 | HCPE + decoder | 1e-4 | (0.9, 0.9) | 22 epochs |
+| Stage 2 (GAN) | decoder | 5.4e-5 (G and D) | (0.5, 0.9) | 10 epochs |
+
+Global batch 512 on ImageNet-1k at 256 × 256; EMA decay 0.999 (Stage 1) and 0.9975 (Stage 2).
+
+**HCPE warmup (optional).** Encoders that are sensitive to their patch embedding, such as SigLIP2 or DINOv2,
+need the HCPE to be warmed up before Stage 1: it is first fitted to the output of the encoder's original patch
+embedding for about 2 epochs (10k updates at batch 256). Enable it with
+`--set training.hcpe_warmup.epochs=2`; see [HCPE warmup](./stage1/README.md#hcpe-warmup).
 
 <!--
 **DINO-SAE** bridges semantic representation and pixel-level reconstruction through three key contributions:

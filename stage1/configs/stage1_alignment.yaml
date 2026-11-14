@@ -1,0 +1,14 @@
+# Stage 1: HCPE + decoder, L1 + LPIPS + directional alignment to the frozen teacher.
+_base_: base.yaml
+stage: 1
+training:
+  scope: cnn_decoder
+  max_updates: null              # the phases set the end
+  output_dir: runs/stage1_alignment
+  phases:                        # lengths in epochs; the Adam moments carry over between phases
+    - {epochs: 3, learning_rate: 1.0e-5, betas: [0.9, 0.999]}    # epochs 0-3
+    - {epochs: 22, learning_rate: 1.0e-4, betas: [0.9, 0.9]}     # epochs 3-25
+losses:
+  alignment: 0.5
+validation:
+  enabled: true

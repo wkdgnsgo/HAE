@@ -1,0 +1,21 @@
+# Stage 2: decoder only (encoder and HCPE frozen), L1 + LPIPS + adaptive DinoDisc GAN.
+# Update counts assume global batch 512 on ImageNet-1k: 1 epoch = 2,502 updates.
+_base_: base.yaml
+stage: 2
+training:
+  scope: decoder
+  learning_rate: 5.4e-5
+  lr_warmup_updates: 2502        # 1 epoch
+  betas: [0.5, 0.9]
+  max_updates: 25020             # 10 epochs
+  output_dir: runs/stage2_gan
+  init_from: runs/stage1_alignment/checkpoint_last.pt
+gan:
+  enabled: true
+  learning_rate: 5.4e-5
+  betas: [0.5, 0.9]
+  warmup_updates: 5004           # 2 epochs of discriminator-only updates
+ema:
+  decay: 0.9975
+validation:
+  enabled: true

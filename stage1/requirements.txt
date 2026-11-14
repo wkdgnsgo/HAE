@@ -1,0 +1,12 @@
+# Install a torch / torchvision build that matches your CUDA version first.
+numpy>=1.24,<3
+Pillow>=10
+PyYAML>=6
+omegaconf==2.3.0
+safetensors>=0.4
+lpips==0.1.4
+pytorch-fid==0.3.0
+scipy>=1.10
+requests>=2
+wandb>=0.23,<0.24
+pytest>=8,<10

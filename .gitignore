@@ -52,8 +52,8 @@ miniconda3/
 profile_default/
 ipython_config.py
 
-# 요청하신 대로 모든 ipynb 파일을 무시합니다.
-# (공유해야 할 노트북이 있다면 'git add -f filename.ipynb'로 강제 추가하세요)
+# All notebooks are ignored.
+# (To share a notebook, add it explicitly with 'git add -f filename.ipynb'.)
 *.ipynb
 
 # ==========================

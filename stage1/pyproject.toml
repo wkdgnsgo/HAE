@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hae-stage1"
+version = "1.0.0"
+description = "Hyperspherical Autoencoder (HAE): stage-1 autoencoder training and evaluation"
+requires-python = ">=3.10"
+dependencies = [
+  "torch>=2.8,<3", "torchvision>=0.23", "numpy>=1.24,<3",
+  "Pillow>=10", "PyYAML>=6", "omegaconf==2.3.0", "safetensors>=0.4",
+  "lpips==0.1.4", "wandb>=0.23,<0.24",
+]
+
+[project.optional-dependencies]
+eval = ["pytorch-fid==0.3.0", "scipy>=1.10"]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+hae-train = "hae.train:main"
+hae-evaluate = "hae.evaluate:main"
+
+[tool.setuptools.packages.find]
+include = ["hae*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
