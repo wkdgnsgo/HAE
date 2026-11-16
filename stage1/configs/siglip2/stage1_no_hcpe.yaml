@@ -1,0 +1,10 @@
+# SigLIP2 without the HCPE: the original encoder stays frozen and only the decoder trains.
+_base_: [../stage1_alignment.yaml, encoder.yaml]
+model:
+  encoder:
+    hcpe_mode: none
+training:
+  scope: decoder
+  output_dir: runs/siglip2/stage1_no_hcpe
+losses:
+  alignment: 0.0

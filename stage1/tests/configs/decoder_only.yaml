@@ -1,0 +1,9 @@
+_base_: ../../configs/base.yaml
+stage: 3
+training:
+  scope: decoder
+  learning_rate: 1.0e-4
+  betas: [0.9, 0.95]
+  lr_warmup_updates: 500
+  max_updates: 30024
+  output_dir: runs/decoder_only

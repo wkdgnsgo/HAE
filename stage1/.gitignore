@@ -1,0 +1,11 @@
+vendor/
+weights/
+runs/
+logs/
+reports/
+data/
+wandb/
+.venv/
+.pytest_cache/
+__pycache__/
+*.egg-info/

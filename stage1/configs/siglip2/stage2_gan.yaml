@@ -1,0 +1,5 @@
+# SigLIP2 + HCPE, Stage 2 (GAN).
+_base_: [../stage2_gan.yaml, encoder.yaml]
+training:
+  output_dir: runs/siglip2/stage2_gan
+  init_from: runs/siglip2/stage1_alignment/checkpoint_last.pt

@@ -1,0 +1,16 @@
+# SigLIP2-L/16 (256 px) encoder. Prepare the weights with scripts/prepare_siglip2.py.
+model:
+  encoder:
+    type: siglip2
+    weights_path: weights/siglip2/siglip2-large-patch16-256/vision_model.safetensors
+    config_path: weights/siglip2/siglip2-large-patch16-256/config.json
+    arch: null                   # inline architecture fields instead of config_path
+    feature_layer: null          # number of transformer blocks to run; null = all
+    post_layernorm: true
+    allow_pos_interpolation: false
+    frozen_backbone_eval: true
+    hcpe_mode: replace           # replace (HCPE in place of the patchify) | none (original encoder, frozen)
+    hcpe_init: null              # HCPE weights from scripts/pretrain_hcpe_patchify.py (instead of training.hcpe_warmup)
+logging:
+  wandb:
+    group: siglip2
